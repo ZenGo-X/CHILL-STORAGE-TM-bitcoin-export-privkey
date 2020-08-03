@@ -1,0 +1,13 @@
+{
+  "name": "bitcoin-export-privkey",
+  "version": "1.0.0",
+  "description": "Export a ZenGo constructed private key to WIF & address",
+  "scripts": {
+  },
+  "author": "oleiba <oded@zengo.com>",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "bitcoinjs-lib": "^5.1.10",
+    "commander": "^6.0.0"
+  }
+}

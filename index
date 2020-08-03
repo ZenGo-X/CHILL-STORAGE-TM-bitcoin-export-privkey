@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+
+const bitcoinJs = require('bitcoinjs-lib');
+const program = require('commander');
+
+program
+  .command('export <privateKey>')
+  .description('Export a private key into a WIF (Wallet Import Format). Private key expected to be 32 bytes hex.')
+  .action(async (privateKey) => {
+      const keyPair = privateKeyToKeyPair(privateKey);
+      const privateKeyWIF = keyPair.toWIF();
+      console.log(privateKeyWIF);
+  });
+
+program
+  .command('address <privateKey>')
+  .alias('a')
+  .description('Get the ZenGo BTC address given a private key. Private key expected to be 32 bytes hex.')
+  .action(async (privateKey) => {
+      const network = bitcoinJs.networks.bitcoin;
+      const keyPair = privateKeyToKeyPair(privateKey);
+      const payment = bitcoinJs.payments.p2sh({
+          redeem: bitcoinJs.payments.p2wpkh({
+              pubkey: keyPair.publicKey,
+              network: network
+          }),
+          network: network
+      });
+      console.log(payment.address);
+  });
+
+const privateKeyToKeyPair = function (privateKey) {
+    const network = bitcoinJs.networks.bitcoin;
+    const privateKeyBuffer = Buffer.from(privateKey, 'hex');
+    return bitcoinJs.ECPair.fromPrivateKey(privateKeyBuffer, {compressed: true, network: network});
+};
+
+program.parse(process.argv);
