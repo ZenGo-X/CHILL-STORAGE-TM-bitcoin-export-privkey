@@ -1,5 +1,5 @@
 # CHILL-STORAGE™-bitcoin-export-privkey
-Export BTC private key & address pair for Zengo server recovery
+Export BTC private key & address pair for ZenGo server recovery
 
 ## Getting started
 Installation:
